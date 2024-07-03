@@ -3,42 +3,36 @@ name: Build iOS Jailbreak Plugin
 on:
   push:
     branches:
-      - main  # Replace with your main branch name
+      - main
   pull_request:
     branches:
-      - main  # Replace with your main branch name
+      - main
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # You can choose the operating system that matches your development needs
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v2
-      
-      - name: Install necessary packages
+
+      - name: Update and install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y build-essential git curl wget zip unzip
 
-      - name: Set up Theos environment
+      - name: Clone Theos repository
         run: |
           git clone --recursive https://github.com/theos/theos.git ~/theos
-
-      - name: Configure environment variables
-        run: |
           echo 'export THEOS=~/theos' >> $GITHUB_ENV
           echo 'export PATH="$THEOS/bin:$PATH"' >> $GITHUB_ENV
           echo 'export THEOS_DEVICE_IP=your_device_ip' >> $GITHUB_ENV  # Replace with your device IP
           echo 'export THEOS_DEVICE_PORT=22' >> $GITHUB_ENV  # Replace with your device SSH port
 
-      - name: Build the jailbreak plugin
+      - name: List project files
+        run: ls -R $GITHUB_WORKSPACE
+
+      - name: Build package
         run: |
           cd $GITHUB_WORKSPACE
           make package
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: jailbreak-plugin
-          path: path/to/your/plugin.deb  # Replace with the path to your compiled plugin .deb file
