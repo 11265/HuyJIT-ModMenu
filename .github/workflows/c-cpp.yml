@@ -33,8 +33,8 @@ jobs:
     - name: Navigate to workspace
       run: cd $GITHUB_WORKSPACE
 
+    - name: Copy tweak.mk to workspace
+      run: cp ~/theos/makefiles/tweak.mk $GITHUB_WORKSPACE/tweak.mk
+
     - name: Build package
-      run: |
-        # Ensure tweak.mk is in the correct location
-        cp /path/to/your/tweak.mk $GITHUB_WORKSPACE/tweak.mk  # Adjust path as needed
-        make package
+      run: make package
