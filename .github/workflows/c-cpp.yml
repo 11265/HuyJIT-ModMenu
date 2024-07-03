@@ -1,4 +1,4 @@
-name: Build My Project
+name: Find and Use tweak.mk
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  build:
+  find-tweak:
     runs-on: ubuntu-latest
     
     steps:
@@ -27,14 +27,12 @@ jobs:
         echo 'export THEOS_DEVICE_IP=your_device_ip' >> $GITHUB_ENV  # Replace with your device IP
         echo 'export THEOS_DEVICE_PORT=22' >> $GITHUB_ENV  # Replace with your device SSH port
 
-    - name: Check repository contents
-      run: ls -R $GITHUB_WORKSPACE
-
-    - name: Navigate to workspace
-      run: cd $GITHUB_WORKSPACE
-
-    - name: Copy tweak.mk to workspace
-      run: cp ~/theos/makefiles/tweak.mk $GITHUB_WORKSPACE/tweak.mk
+    - name: Find tweak.mk and copy to workspace
+      run: |
+        find $GITHUB_WORKSPACE -name "tweak.mk" -type f -exec cp {} $GITHUB_WORKSPACE \;
+      
+    - name: Confirm tweak.mk is copied
+      run: ls -l $GITHUB_WORKSPACE/tweak.mk
 
     - name: Build package
-      run: make package
+      run: make -f tweak.mk package
