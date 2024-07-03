@@ -29,7 +29,8 @@ jobs:
 
     - name: Find tweak.mk and copy to workspace
       run: |
-        find $GITHUB_WORKSPACE -name "tweak.mk" -type f -exec cp {} $GITHUB_WORKSPACE \;
+        cd ~/theos  # 切换到 Theos 目录
+        find . -name "tweak.mk" -type f -exec cp {} $GITHUB_WORKSPACE \;
 
     - name: Confirm tweak.mk is copied
       run: ls -l $GITHUB_WORKSPACE/tweak.mk
