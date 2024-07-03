@@ -26,6 +26,7 @@ $(TWEAK_NAME)_FILES = ImGuiDrawView.mm $(wildcard Esp/*.mm) $(wildcard Esp/*.m) 
 #$(TWEAK_NAME)_LIBRARIES += substrate
 # GO_EASY_ON_ME = 1
 
-include $(THEOS_MAKE_PATH)/tweak.mk
+#include $(THEOS_MAKE_PATH)/tweak.mk
+include $(THEOS_MAKEFILE_PATH)/tweak.mk
 
 
