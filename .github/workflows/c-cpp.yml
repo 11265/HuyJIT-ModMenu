@@ -1,4 +1,4 @@
-name: Build iOS Jailbreak Plugin
+name: Build My Project
 
 on:
   push:
@@ -11,28 +11,30 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Update and install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential git curl wget zip unzip
+    - name: Install wget
+      run: sudo apt-get install wget -y
 
-      - name: Clone Theos repository
-        run: |
-          git clone --recursive https://github.com/theos/theos.git ~/theos
-          echo 'export THEOS=~/theos' >> $GITHUB_ENV
-          echo 'export PATH="$THEOS/bin:$PATH"' >> $GITHUB_ENV
-          echo 'export THEOS_DEVICE_IP=your_device_ip' >> $GITHUB_ENV  # Replace with your device IP
-          echo 'export THEOS_DEVICE_PORT=22' >> $GITHUB_ENV  # Replace with your device SSH port
+    - name: Clone Theos
+      run: |
+        git clone --recursive https://github.com/theos/theos.git ~/theos
+        echo 'export THEOS=~/theos' >> $GITHUB_ENV
+        echo 'export PATH="$THEOS/bin:$PATH"' >> $GITHUB_ENV
+        echo 'export THEOS_DEVICE_IP=your_device_ip' >> $GITHUB_ENV  # Replace with your device IP
+        echo 'export THEOS_DEVICE_PORT=22' >> $GITHUB_ENV  # Replace with your device SSH port
 
-      - name: List project files
-        run: ls -R $GITHUB_WORKSPACE
+    - name: Check repository contents
+      run: ls -R $GITHUB_WORKSPACE
 
-      - name: Build package
-        run: |
-          cd $GITHUB_WORKSPACE
-          make package
+    - name: Navigate to workspace
+      run: cd $GITHUB_WORKSPACE
+
+    - name: Build package
+      run: |
+        # Ensure tweak.mk is in the correct location
+        cp /path/to/your/tweak.mk $GITHUB_WORKSPACE/tweak.mk  # Adjust path as needed
+        make package
